@@ -1,15 +1,23 @@
 ################################################################################
+# 
+#                       COMBINED AND EXPLORE ALL DATASETS
+#
+# 
+################################################################################
+################################################################################
 # CLEAR ENVIRONMENT, SET WORKING DIRECTORY, IDENTIFY LIBRARY NEEDED.
 ################################################################################
 rm(list = ls())
-setwd("C:/Users/USER/Desktop/R/BRR/2018")
+setwd("C:/Users/USER/Desktop/R/BRR/2018 V2/2018")
 ################################################################################
 library(XLConnect)
 library(reshape)
 ################################################################################
 files = list.files()
 unopenable = files[grepl('xlsx$', unlist(as.list(files[1:length(files)])))!= TRUE]
+unopenable = c(unopenable, files[grepl('BIBS.xlsx$', unlist(as.list(files[1:length(files)])))] )
 files = files[grepl('xlsx$', unlist(as.list(files[1:length(files)])))]
+files = files[-which(files == files[grepl('BIBS.xlsx$', unlist(as.list(files[1:length(files)])))])]
 ################################################################################
 ##################        Extract data from files       ########################
 ################################################################################
@@ -38,15 +46,11 @@ for (i in 2:l){
 comb.fix = combined_data[-which(is.na(combined_data$`First Name`) & is.na(combined_data$`Last Name`) ),]
 bad = combined_data[which(is.na(combined_data$`First Name`) & is.na(combined_data$`Last Name`) ),]
 
-write.csv(comb.fix , "combined_data.csv")
+write.csv(comb.fix , "Summary/combined_data.csv",row.names = FALSE)
 
-# write.csv(bad,"bad_observation.csv") 
+write.csv(bad,"Summary/bad_observation.csv")
 # All the data only have bib number without runners data So we ignore those data.
 # The only data that might be useful is ther 2018 hot chocolate run because there is a data has donation but has no name.
-
-
-
-
 
 
 
