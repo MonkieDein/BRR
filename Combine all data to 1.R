@@ -41,6 +41,21 @@ for (i in 2:l){
     datasets$'Date of Birth' = as.character(unlist(datasets$'Date of Birth'))
   }
   combined_data = merge(combined_data, datasets, all.x = TRUE , all.y = TRUE)
+  
+  if ((files[i] == "2018 Taco Mile.xlsx")|(files[i] == "2018 Boston Beach Run.xlsx")){
+    datasets = readxl::read_excel(files[i],sheet = 2)  
+    if (nrow(datasets)==0){
+      next
+    }
+    datasets$race = races[i]
+    if (is.null( datasets$'Date (mm/dd/yyyy)')==FALSE){
+      datasets$'Date (mm/dd/yyyy)' = as.character(unlist(datasets$'Date (mm/dd/yyyy)'))
+    }
+    if (is.null( datasets$'Date of Birth')==FALSE){
+      datasets$'Date of Birth' = as.character(unlist(datasets$'Date of Birth'))
+    }
+    combined_data = merge(combined_data, datasets, all.x = TRUE , all.y = TRUE)
+  }
 }
 
 comb.fix = combined_data[-which(is.na(combined_data$`First Name`) & is.na(combined_data$`Last Name`) ),]
